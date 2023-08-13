@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 
 const AddCatchForm = ({ onCatchAdded }) => {
   const [species, setSpecies] = useState('');
-  const [weight, setWeight] = useState('');
-  const [length, setLength] = useState('');
+  const [weightKg, setWeightKg] = useState('');
+  const [lengthCm, setLengthCm] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // Convert weight to kilograms and length to centimeters
+    const weight = parseFloat(weightKg);
+    const length = parseFloat(lengthCm);
 
     // Create the new catch object
     const newCatch = {
@@ -20,33 +24,34 @@ const AddCatchForm = ({ onCatchAdded }) => {
 
     // Clear the form fields after successful addition
     setSpecies('');
-    setWeight('');
-    setLength('');
+    setWeightKg('');
+    setLengthCm('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>Species:</label>
       <input
         type="text"
+        placeholder="Species"
         value={species}
         onChange={(e) => setSpecies(e.target.value)}
         required
       />
 
-      <label>Weight:</label>
       <input
         type="number"
-        value={weight}
-        onChange={(e) => setWeight(e.target.value)}
+        value={weightKg}
+        placeholder="Weight (KG)"
+        onChange={(e) => setWeightKg(e.target.value)}
+        step="0.01" // Use step attribute to allow decimals
         required
       />
 
-      <label>Length:</label>
       <input
         type="number"
-        value={length}
-        onChange={(e) => setLength(e.target.value)}
+        placeholder="Length (CM)"
+        value={lengthCm}
+        onChange={(e) => setLengthCm(e.target.value)}
         required
       />
 

@@ -24,13 +24,26 @@ const CatchList = ({ catches, tripId, onCatchAdded }) => {
       });
   };
 
+  const handleDeleteCatch = (catchId) => {
+    axios
+      .delete(`http://localhost:8080/api/fishingtrips/${tripId}/catches/${catchId}`)
+      .then(() => {
+        // Reload the fishing trip after successful deletion
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error deleting catch:', error);
+      });
+  };
+
   return (
     <div className="catch-list">
-      <h2>Catches for Selected Trip</h2>
+      <h2>Reissun saalis</h2>
       <ul>
         {catches.map((catchItem) => (
           <li key={catchItem.id}>
             Species: {catchItem.species}, Weight: {catchItem.weight}, Length: {catchItem.length}
+            <button onClick={() => handleDeleteCatch(catchItem.id)}>Delete Catch</button>
           </li>
         ))}
       </ul>

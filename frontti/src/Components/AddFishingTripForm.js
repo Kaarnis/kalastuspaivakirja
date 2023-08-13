@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../css/FishingTripForm.css'
 
 const AddFishingTripForm = ({ onTripAdded }) => {
   const [title, setTitle] = useState('');
@@ -55,58 +56,75 @@ const AddFishingTripForm = ({ onTripAdded }) => {
         console.error('Error adding fishing trip:', error);
       });
   };
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>Title:</label>
-            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+  return (
+    <form className="fishing-trip-form" onSubmit={handleSubmit}>
+      <div className="Kalareissuformi">
+        <div className="form-group">
+          <label>Title:</label>
+          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        </div>
 
-            <label>Date:</label>
-            <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+        <div className="form-group">
+          <label>Date:</label>
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
+        </div>
 
-            <label>Location:</label>
-            <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+        <div className="form-group">
+          <label>Location:</label>
+          <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} required />
+        </div>
 
-            <label>Weather:</label>
-            <input type="text" value={weather} onChange={(e) => setWeather(e.target.value)} />
+        <div className="form-group">
+          <label>Weather:</label>
+          <input type="text" value={weather} onChange={(e) => setWeather(e.target.value)} />
+        </div>
 
-            <label>Notes:</label>
-            <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
-
-            <label>Catches:</label>
-            {catches.map((catchItem, index) => (
-                <div key={index}>
-                    <input
-                        type="text"
-                        value={catchItem.species}
-                        onChange={(e) => handleCatchChange(index, 'species', e.target.value)}
-                        placeholder="Species"
-                        required
-                    />
-                    <input
-                        type="number"
-                        value={catchItem.weight}
-                        onChange={(e) => handleCatchChange(index, 'weight', e.target.value)}
-                        placeholder="Weight"
-                        required
-                    />
-                    <input
-                        type="number"
-                        value={catchItem.length}
-                        onChange={(e) => handleCatchChange(index, 'length', e.target.value)}
-                        placeholder="Length"
-                        required
-                    />
-                    <button type="button" onClick={() => handleRemoveCatch(index)}>
-                        Remove
-                    </button>
-                </div>
-            ))}
-            <button type="button" onClick={handleAddCatch}>
-                Add Catch
+        <div className="form-group">
+          <label>Notes:</label>
+          <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
+        </div>
+      </div>
+      <div className="catchform-group">
+        <label>Catches:</label>
+        {catches.map((catchItem, index) => (
+          <div key={index} className="catch-form">
+            <input
+              type="text"
+              value={catchItem.species}
+              onChange={(e) => handleCatchChange(index, 'species', e.target.value)}
+              placeholder="Species"
+              required
+            />
+            <input
+              type="number"
+              value={catchItem.weight}
+              onChange={(e) => handleCatchChange(index, 'weight', e.target.value)}
+              placeholder="Weight (KG)" // Update placeholder
+              required
+            />
+            <input
+              type="number"
+              value={catchItem.length}
+              onChange={(e) => handleCatchChange(index, 'length', e.target.value)}
+              placeholder="Length (CM)" // Update placeholder
+              required
+            />
+            <button className ="removebutton" type="button" onClick={() => handleRemoveCatch(index)}>
+              Remove
             </button>
-            <button type="submit">Add Fishing Trip</button>
-        </form>
-    );
+          </div>
+        ))}
+      </div>
+
+      <div className="fishingtripformbuttons">
+        <button type="button" onClick={handleAddCatch}>
+          Add Catch
+        </button>
+        <button type="submit">Add Fishing Trip</button>
+      </div>
+    </form>
+  );
+
 };
 
 export default AddFishingTripForm;
