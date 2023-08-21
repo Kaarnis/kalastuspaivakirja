@@ -17,6 +17,9 @@ Fishing Logbook is a web application that allows users to keep track of their fi
 - Axios for handling HTTP requests
 - TailwindCSS for styling and layout
 
+## Still in progress...
+
+Trying to finish after summer
 
 
    
