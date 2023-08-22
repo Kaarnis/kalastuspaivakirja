@@ -55,7 +55,7 @@ public class FishingTripService {
         dto.setLocation(fishingTrip.getLocation());
         dto.setWeather(fishingTrip.getWeather());
         dto.setNotes(fishingTrip.getNotes());
-        dto.setCatches(fishingTrip.getCatches()); // Assuming getCatches() returns the list of catches
+        dto.setCatches(fishingTrip.getCatches());
 
         return dto;
     }

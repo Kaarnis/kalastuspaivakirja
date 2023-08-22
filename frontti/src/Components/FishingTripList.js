@@ -3,9 +3,7 @@ import axios from 'axios';
 import CatchList from './CatchList';
 import '../css/styles.css';
 
-// ... other imports ...
-
-const FishingTripList = ({ refresh, onTripAdded }) => {
+const FishingTripList = ({ refresh }) => {
   const [fishingTrips, setFishingTrips] = useState([]);
 
   useEffect(() => {
@@ -19,27 +17,33 @@ const FishingTripList = ({ refresh, onTripAdded }) => {
       .catch((error) => console.error('Error fetching fishing trips:', error));
   };
 
-  // Function to handle adding a catch to a specific trip
-  const handleCatchAdded = (tripId, newCatch) => {
-    // Find the trip to which we want to add the catch
-    const updatedTrips = fishingTrips.map((trip) =>
-      trip.id === tripId ? { ...trip, catches: [...trip.catches, newCatch] } : trip
-    );
-
-    // Update the state with the new list of trips
-    setFishingTrips(updatedTrips);
+  const handleDeleteFishingTrip = (tripId) => {
+    axios
+      .delete(`http://localhost:8080/api/fishingtrips/${tripId}`)
+      .then(() => {
+        // Reload the fishing trips after successful deletion
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error('Error deleting fishing trip:', error);
+      });
   };
 
   return (
     <div className="fishing-trips">
-      <ul>
-        {fishingTrips.map((trip) => (
-          <li key={trip.id}>
-            <h3>{trip.title} - {trip.date}</h3>
-            <CatchList tripId={trip.id} catches={trip.catches} onCatchAdded={handleCatchAdded} />
-          </li>
-        ))}
-      </ul>
+      <h2>Fishing Trips</h2>
+      {fishingTrips.map((trip) => (
+        <div className="trip-card" key={trip.id}>
+          <h3>{trip.title} - {trip.date}</h3>
+          <div className="trip-details">
+            <p><strong>Location:</strong> {trip.location}</p>
+            <p><strong>Weather:</strong> {trip.weather}</p>
+            <p><strong>Notes:</strong> {trip.notes}</p>
+            <CatchList catches={trip.catches} tripId={trip.id} />
+            <button onClick={() => handleDeleteFishingTrip(trip.id)}>Delete Trip</button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
